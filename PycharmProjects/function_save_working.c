@@ -5,6 +5,7 @@
 #include <locale.h>
 #include <stdbool.h>
 #define SIZE 500;
+void filtr(double *,double *);
 void read_length(int*, char*);
 double function(double *, double *, double *, double *, int);
 void dziedzina(double *,double *);
@@ -16,18 +17,21 @@ void zapis(double *, int, char *);
 double ampp();
 double random_number(double *a);
 int tab_rozmiar();
-double *dynamic_tab(int a);
+double *dynamic_tab(int );
 void odczyt(double *, int *);
 void save_or_not(int*);
 void welcome(int *);
 void next_menu(int *);
 void next_menu3(int *);
-//void zaszum1(double wynik_z[];); 
-
+void filtred(double *,double*,int *rozmiar);
+void merge_sort(double * filtr_tab, int *rozmiar);
+void merge_s_r(double * filtr_tab,int l,int r);
+void merge_s_arr(double * filtr_tab,int l,int m, int r);
 
 int main()
 {
     int save = 0;int menu1=0;int menu2=0;int menu3 = 0;double l = 0; double p = 0; double wspol1[3]; int time;double *wynik;int rozmiar;double amp1;double r;double *wynik_z;
+    double *filter_tab;
     setlocale( LC_ALL, "polish_poland" );
     welcome(&menu1);
     switch(menu1)
@@ -66,8 +70,11 @@ int main()
                 {
                      zapis(wynik_z,rozmiar,"essa.csv");
                      printf("SAVED!");
-                     print2();
                 }
+           }
+           case 2:
+           {
+            filtred(wynik,filter_tab,&rozmiar);
            }
            case 3:
            {
@@ -82,8 +89,9 @@ int main()
         read_length(&rozmiar, "essa.csv");
         printf("rozmiar === %d", rozmiar);
         wynik = dynamic_tab(rozmiar);
-        printf("YOU CHOOSE READ FROM FILE");
+        printf("YOU CHOOSE READ FROM FILE\n");
         odczyt(wynik,&rozmiar);
+        filtred(wynik,filter_tab,&rozmiar);
     }
     break;
     
@@ -97,9 +105,6 @@ int main()
     printf("zwolniono pamiec\n");
     }break;
 }
-    //drukuj(wynik,size);
-    
-    
     
 }
 
@@ -237,7 +242,6 @@ double *dynamic_tab(int rozmiar)
 }
 void odczyt(double *wynik, int *rozmiar)
 {
-   // printf("rozmiar = %d", rozmiar);
     int records=0;
    FILE* file;
 	file = fopen("C:\\Users\\Matteo\\PycharmProjects\\essa.csv", "r");
@@ -337,4 +341,65 @@ void read_length(int* rozmiar, char NazwaPliku[]) {
 	fclose(excel);
 
 	*rozmiar = wiersze;
+}
+void filtred(double *wynik, double* filtr_tab, int *rozmiar)
+{
+    double probki[5];
+    int okno = 5;
+    filtr_tab = calloc(*rozmiar, sizeof(double));
+    for(int i =0; i< *rozmiar; i++)
+    filtr_tab[i] = wynik[i];
+    for (int i =0; i<*rozmiar-3; i++)
+    {
+        for(int p=0; p< okno; p++)
+        {
+        probki[p] = wynik[p+i];
+        }
+        for(int i=0;i<5;i++)
+        {
+            for(int j=0;j<okno-1; j++)
+            {
+                if(probki[j]> probki[j+1])
+                {
+                double temp=probki[j];
+                probki[j]= probki[j+1];
+                probki[j+1] = temp;  
+            }
+        }
+        }
+        //for(int i=0;i<5;i++)printf("probka2[%d] = %lf\n", i , probki[i]);
+     *(filtr_tab+2+i) = *(probki+2);   
+    }//for(int i=0;i<okno;i++)printf("probka[%d] = %lf", i , probki[i]);
+
+    
+        
+
+
+ /*   double probki[5];
+ int okno=5;
+ filtr_tab = calloc(*rozmiar, sizeof(double));
+ for (int j=0 ; j< *rozmiar ; j++)
+ {
+    filtr_tab[j]= wynik[j];
+    for(int i = 0; i<okno ; i++)
+        probki[i]= wynik[j+i];
+        for(int j=0;j<okno;j++)
+        {
+        for(int i =0; i< okno; i++)
+        {
+            if (probki[j] > probki[j+1])
+            {
+                double temp=probki[j];
+                probki[j]= probki[j+1];
+                probki[j+1] = temp;
+            }
+        }
+        
+        }
+    filtr_tab[2+j] = probki[2];
+ }*/
+
+for(int i = 0; i <*rozmiar; i++)
+ printf("test[%d] = %lf\n",i, filtr_tab[i]);
+
 }
