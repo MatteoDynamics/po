@@ -383,64 +383,62 @@ void next_menu(int *menu2)
 }
 */
 
-void read_length(int* size, char NazwaPliku[])
+void read_length(int* size, char filename[])
 {
-    FILE* excel;
-    excel = fopen(NazwaPliku, "r");
-
-    if (excel == NULL) {
+    FILE* plik;
+    plik = fopen(filename, "r");
+    if (plik == NULL) 
+    {
         printf("\ncouldnt open the file\n");
     }
     setlocale(LC_ALL, "polish_poland");
-
-    char chr;
-    int wiersze = 0;
-    chr = getc(excel);
-    while (chr != EOF)
+    char typo;int row= 0;
+    typo = getc(plik);
+    while (typo != EOF)
     {
-        if (chr == 10)
+        if (typo==10)
         {
-            wiersze = wiersze + 1;
+            row = row + 1;
         }
-        chr = getc(excel);
+        typo = getc(plik);
     }
 
     //printf("\nwiersze=%d", wiersze);
 
     setlocale(LC_ALL, "C");
 
-    fclose(excel);
+    fclose(plik);
 
-    *size = wiersze;
+    *size = row;
 }
 
 void filtered_function(double *array_function, double* filtr_tab, int *size)
 {
-    double probki[5];
-    int okno = 5;
+    double probes[5];
+    int window = 5;
     for(int i =0; i< *size; i++)
         filtr_tab[i] = array_function[i];
     for (int i =0; i<*size-3; i++)
     {
-        for(int p=0; p< okno; p++)
+        for(int p=0; p< window; p++)
         {
-            probki[p] = array_function[p+i];
+            probes[p] = array_function[p+i];
         }
         for(int i=0;i<5;i++)
         {
-            for(int j=0;j<okno-1; j++)
+            for(int j=0;j<window-1; j++)
             {
-                if(probki[j]> probki[j+1])
+                if(probes[j]> probes[j+1])
                 {
-                    double temp=probki[j];
-                    probki[j]= probki[j+1];
-                    probki[j+1] = temp;
+                    double temp=probes[j];
+                    probes[j]= probes[j+1];
+                    probes[j+1] = temp;
                 }
             }
         }
-        //for(int i=0;i<5;i++)printf("probka2[%d] = %lf\n", i , probki[i]);
-        *(filtr_tab+2+i) = *(probki+2);
-    }//for(int i=0;i<okno;i++)printf("probka[%d] = %lf", i , probki[i]);
+        //for(int i=0;i<5;i++)printf("probka2[%d] = %lf\n", i , probes[i]);
+        *(filtr_tab+2+i) = *(probes+2);
+    }//for(int i=0;i<okno;i++)printf("probka[%d] = %lf", i , probes[i]);
 
    // for(int i = 0; i <*size; i++)
        // printf("test[%d] = %lf\n",i, filtr_tab[i]);
