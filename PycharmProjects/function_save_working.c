@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <time.h>
 #include <stdlib.h>
@@ -44,6 +45,7 @@ int main()
         size = tab_size();
         array_function = dynamic_tab(size);
         array_noised = dynamic_tab(size);
+        filter_tab = dynamic_tab(size);
 
         field(&left,&right);
 
@@ -66,6 +68,7 @@ int main()
            case 1: 
            {
                 amp = amplitude();
+                printf("amp = %d", amp);
                 noise_probability(array_function,array_noised,size,&amp);
                 save_or_not(&save);
                 if(save = 1)
@@ -103,15 +106,40 @@ int main()
         read_length(&size, "essa.csv");
       //  printf("size === %d", size);
         array_function = dynamic_tab(size);
+        array_noised = dynamic_tab(size);
+        filter_tab = dynamic_tab(size);
         printf("YOU CHOOSE READ FROM FILE\n");
         read_function(array_function,&size);
-        save_or_not(&save);
-                if(save = 1)
-                {
-                     save_function(array_noised,size,"essa.csv");
-                     printf("SAVED!");
-                }
-                save=0;
+        for (int i=0; i <size ; i++)
+        printf("odczyt[%d] = %0.3lf", i , array_function[i]);
+        do
+        {
+        next_menu(&menu2);
+        switch(menu2)
+        {
+           case 1: 
+           {
+                amp = amplitude();
+                printf("amp = %d", amp);
+                noise_probability(array_function,array_noised,size,&amp);
+                save_function(array_noised,size,"essa.csv");
+           }break;
+           
+           case 2:                                      // SIGNAL FILTERING
+           {
+            filtered_function(array_function,filter_tab,&size);
+            save_function(filter_tab,size,"essa.csv");
+           }break;
+           case 3:
+            {
+                printf("quiting\n");
+                free(array_function);
+                free(array_noised);
+                free(filter_tab);
+                printf("free memory!\n");
+            }break;
+        }
+        } while(menu2==1 || menu2==2);
         //filtered_function(array_function,filter_tab,&size);
     }
     break;
@@ -332,7 +360,6 @@ void next_menu(int *menu2)
 {
 	FILE* plik;
 	plik = fopen(NazwaPliku, "r");
-
 	if (plik == NULL) {
 		printf("\nNie udalo sie otworzyc pliku");
 	}
@@ -378,7 +405,6 @@ void filtered_function(double *array_function, double* filtr_tab, int *size)
 {
     double probki[5];
     int okno = 5;
-    filtr_tab = calloc(*size, sizeof(double));
     for(int i =0; i< *size; i++)
     filtr_tab[i] = array_function[i];
     for (int i =0; i<*size-3; i++)
