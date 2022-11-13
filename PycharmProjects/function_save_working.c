@@ -5,34 +5,35 @@
 #include <locale.h>
 #include <stdbool.h>
 #define SIZE 500;
-void filtr(double *,double *);
-void read_length(int*, char*);
-double function(double *, double *, double *, double *, int);
-void dziedzina(double *,double *);
-double wsp(double*);
-void funkcja(double *,double l, double p, double *, int);
-void drukuj(double *,int );
-void szum_prawd(double *, double *, int ,double *);
-void zapis(double *, int, char *);
-double ampp();
-double random_number(double *a);
+void filtr(double * , double *);
+void read_length(int* , char*);
+void field(double * , double *);
+double coefficient(double*);
+void function_generating(double * , double , double , double * , int);
+void noise_probability(double * , double *, int , double *);
+void save_function(double * , int , char *);
+double amplitude();
+double random_number(double *);
 int tab_rozmiar();
 double *dynamic_tab(int );
-void odczyt(double *, int *);
+void read_function(double * , int *);
 void save_or_not(int*);
 void welcome(int *);
 void next_menu(int *);
-void next_menu3(int *);
-void filtred(double *,double*,int *rozmiar);
-void merge_sort(double * filtr_tab, int *rozmiar);
-void merge_s_r(double * filtr_tab,int l,int r);
+void filtered_function(double * , double* , int *);
+/*
+void merge_sort(double * filtr_tab, int *);
+void merge_s_r(double * filtr_tab,int l,int r);                 //MERGE SORT UPDATE UPCOMMING
 void merge_s_arr(double * filtr_tab,int l,int m, int r);
+*/
 
 int main()
 {
-    int save = 0;int menu1=0;int menu2=0;int menu3 = 0;double l = 0; double p = 0; double wspol1[3]; int time;double *wynik;int rozmiar;double amp1;double r;double *wynik_z;
-    double *filter_tab;
-    setlocale( LC_ALL, "polish_poland" );
+    int save = 0 ; int menu1=0 ; int menu2=0 ; int menu3 = 0 ; double left = 0 ; double right = 0;     
+    double wspol1[3]; int time ; int size ; double amp ; double r;
+    double *filter_tab ; double *array_noised ; double *array_function;
+    setlocale( LC_ALL, "polish_poland" );                   // POLISH NOTATION SAVE IN EXCEL
+    
     welcome(&menu1);
     switch(menu1)
 {
@@ -40,58 +41,78 @@ int main()
     {
         printf("You choose generating new function\n");
 
-        rozmiar = tab_rozmiar();
-        wynik = dynamic_tab(rozmiar);
-        wynik_z = dynamic_tab(rozmiar);
+        size = tab_size();
+        array_function = dynamic_tab(size);
+        array_noised = dynamic_tab(size);
 
-        dziedzina(&l,&p);
+        field(&left,&right);
 
-        wsp(wspol1);
+        coefficient(wspol1);
 
-        funkcja(wspol1,l,p,wynik,rozmiar);
+        function_generating(wspol1,left,right,array_function,size);
         
         save_or_not(&save);
         if (save == 1)
         { 
-            zapis(wynik,rozmiar,"essa.csv");
+            save_function(array_function,size,"essa.csv");
+            printf("saved_function!\n");
         }
-        save=0;
+        save=2;
+        do
+        {
         next_menu(&menu2);
-        
-    
         switch(menu2)
         {
            case 1: 
            {
-                amp1 = ampp();
-                szum_prawd(wynik,wynik_z,rozmiar,&amp1);
+                amp = amplitude();
+                noise_probability(array_function,array_noised,size,&amp);
                 save_or_not(&save);
                 if(save = 1)
                 {
-                     zapis(wynik_z,rozmiar,"essa.csv");
+                     save_function(array_noised,size,"essa.csv");
                      printf("SAVED!");
                 }
-           }
-           case 2:
+                save=2;
+           }break;
+           
+           case 2:                                      // SIGNAL FILTERING
            {
-            filtred(wynik,filter_tab,&rozmiar);
-           }
+            filtered_function(array_function,filter_tab,&size);                 
+            save_or_not(&save);
+            if (save == 1)
+        { 
+            save_function(filter_tab,size,"essa.csv");
+        }
+        save=2;
+           }break;
            case 3:
-           {
-            welcome(&menu1);
-           }
-        }break;
+            {
+                printf("quiting\n");
+                free(array_function);
+                free(array_noised);
+                printf("free memory!\n");
+            }break;
+        }
+        } while(menu2==1 || menu2==2);
         
             
-        }
+    }break;
     case 2:
     {
-        read_length(&rozmiar, "essa.csv");
-        printf("rozmiar === %d", rozmiar);
-        wynik = dynamic_tab(rozmiar);
+        read_length(&size, "essa.csv");
+      //  printf("size === %d", size);
+        array_function = dynamic_tab(size);
         printf("YOU CHOOSE READ FROM FILE\n");
-        odczyt(wynik,&rozmiar);
-        filtred(wynik,filter_tab,&rozmiar);
+        read_function(array_function,&size);
+        save_or_not(&save);
+                if(save = 1)
+                {
+                     save_function(array_noised,size,"essa.csv");
+                     printf("SAVED!");
+                }
+                save=0;
+        //filtered_function(array_function,filter_tab,&size);
     }
     break;
     
@@ -100,38 +121,39 @@ int main()
     case 3:
     {
     printf("quiting\n");
-    free(wynik);
-    free(wynik_z);
-    printf("zwolniono pamiec\n");
+    free(array_function);
+    free(array_noised);
+    free(filter_tab);
+    printf("free memory!\n");
     }break;
 }
-    
 }
 
 
 
-void dziedzina(double *x, double *y)
+
+void field(double *x, double *y)
 {
     int ok=0;
-    printf("Podaj liczbe l\n");
+    printf("type left border:   \n");
     ok = scanf("%lf", &*x);
     if(ok!=1)
     {
-        printf("Wrong data, EXIT!");
+        printf("Wrong data, EXIT!\n");
         exit ;
     }
-    printf("Podaj liczbe p\n");
+    printf("type right border:  \n");
     ok = scanf("%lf", &*y); 
     if(ok!=1)
     {
-        printf("Wrong data, EXIT!");
+        printf("Wrong data, EXIT!\n");
         exit ;
     }
 }
 
-double wsp(double *wspol1)
+double coefficient(double *wspol1)
 {
-    printf("Podaj wspolczynniki a,b i c: \n");
+    printf("Type in coefficients:   \n");
     int ok=0;
      for(int i =0 ; i<3 ; i++)
     {
@@ -146,29 +168,29 @@ double wsp(double *wspol1)
 return 0;
 }
 
-void funkcja(double *wsp,double l, double p, double *wynik, int rozmiar)
+void function_generating(double *coefficient,double left, double right, double *array_function, int size)
 {
-    double xy = (p-l)/rozmiar;
-    for (int i = 0; i<rozmiar ; i++)
+    double xy = (right-left)/size;
+    for (int i = 0; i<size ; i++)
     {
         double z = xy*i;
-        wynik[i] = (wsp[0]*sqrt(l+z)) * sin(wsp[1]*(l+z)+wsp[2]);
+        array_function[i] = (coefficient[0]*sqrt(left+z)) * sin(coefficient[1]*(left+z)+coefficient[2]);
     }
 }
 
-void print(double wynik[],int rozmiar)
+void print(double array_function[],int size)
 {
-    for (int i =0 ; i<rozmiar ; i++)
+    for (int i =0 ; i<size ; i++)
     {
-    printf("y[%d] = %lf\n",i, wynik[i]);
+    printf("y[%d] = %lf\n",i, array_function[i]);
     }
 }
 
-void print2(double wynik[],double wynik_z[],int rozmiar)
+void print2(double array_function[],double array_noised[],int size)
 {
-     for (int i =0 ; i<rozmiar ; i++)
+     for (int i =0 ; i<size ; i++)
     {
-    printf("y[%d] = %lf\n",i, wynik_z[i]);
+    printf("y[%d] = %lf\n",i, array_noised[i]);
     }
 }
 
@@ -176,7 +198,7 @@ void print2(double wynik[],double wynik_z[],int rozmiar)
 //         ZAPIS DO PLIKU        //
 
 
-void zapis(double *wynik, int rozmiar, char *filename)
+void save_function(double *array_function, int size, char *filename)
 {
 
     FILE *plik;
@@ -185,84 +207,90 @@ void zapis(double *wynik, int rozmiar, char *filename)
     {
         return ;
     }
-    for(int i=0; i<rozmiar ; i++)
+    for(int i=0; i<size ; i++)
     {
-        fprintf(plik,"%lf\n",wynik[i]);
+        fprintf(plik,"%lf\n",array_function[i]);
     }
     fclose(plik);
 }
 
-double ampp()
+double amplitude()
 {
     double amp;
     printf("podaj amp:  ");
     scanf ("%lf", &amp);
     return amp;
 }
-double random_number(double *amp1)
+
+double random_number(double *amp)
 {
 
     double r;
     srand ( time ( NULL));
-    r = (double)rand()/RAND_MAX*(2*(*amp1))-(*amp1);
+    r = (double)rand()/RAND_MAX*(2*(*amp))-(*amp);
     return r;
 }
-void szum_prawd(double wynik[],double wynik_z[], int rozmiar, double *amp1)
+
+void noise_probability(double array_function[],double array_noised[], int size, double *amp)
 {
     double a;
-    printf ("Podaj wartosc progowa prawdopodobienstwa:  \n");
+    printf ("type in probability percentage:  \n");
     scanf("%lf",&a);
-    for (int i=0; i<rozmiar; i++)
+    for (int i=0; i<size; i++)
     {
         int rand1 = rand()%100+1;
         if (rand1<a)
-        wynik_z[i] = wynik[i] + ((double)rand()/RAND_MAX*2.0*(double)(*amp1/2)-(double)(*amp1/2));
+        array_noised[i] = array_function[i] + ((double)rand()/RAND_MAX*2.0*(double)(*amp/2)-(double)(*amp/2));
         else
-        wynik_z[i] = wynik[i];
+        array_noised[i] = array_function[i];
     }
 
 }
-int tab_rozmiar()
+
+int tab_size()
 {
-printf("\nPodaj wielkosc tablicy wynikowej:   \n");
+printf("\ntype in size of array:   \n");
 int a;
 scanf("%d",&a);
 if(a>500)
     {
         printf("\nWrong data, maximum size of array is 500 EXIT!\n");
-        return tab_rozmiar() ;
+        return tab_size() ;
     }
 
 return a;
 }
-double *dynamic_tab(int rozmiar)
+
+double *dynamic_tab(int size)
 {
-    double *wynik = calloc(rozmiar,sizeof(double));
-    return wynik;
+    double *array_function = calloc(size,sizeof(double));
+    return array_function;
 }
-void odczyt(double *wynik, int *rozmiar)
+
+void read_function(double *array_function, int *size)
 {
     int records=0;
    FILE* file;
 	file = fopen("C:\\Users\\Matteo\\PycharmProjects\\essa.csv", "r");
 
 	if (file == NULL) {
-		printf("\nNie udalo sie otworzyc pliku");
+		printf("\ncouldnt open the file\n");
 	}
-	setlocale(LC_ALL, "polish_poland");
+	setlocale(LC_ALL, "polish_poland");                                                             // POLISH NOTATION READ IN EXCEL
 
-	for (int i = 0; i < *rozmiar; i++)
-		fscanf(file, "%lf\n", &(*(wynik + i)));
+	for (int i = 0; i < *size; i++)
+		fscanf(file, "%lf\n", &(*(array_function + i)));
 
-	setlocale(LC_ALL, "C");
+	setlocale(LC_ALL, "C");                                                                         // POLISH NOTATION READ IN EXCEL
 
 	fclose(file);
-	for(int i=0; i<*rozmiar; i++)
-	{
-		printf("y[%d]= %lf\n", i, wynik[i]);
-	}
+	//for(int i=0; i<*size; i++)
+	//{
+	//	printf("y[%d]= %lf\n", i, array_function[i]);
+	//}
 
 }
+
 void welcome(int *menu1)
 {
 printf("\n1) GENERATE NEW FUNCTION\n2) READ FUNCTION\n3) QUIT");
@@ -273,10 +301,11 @@ if(ok!=1)
         exit ;
     }
 }
-void save_or_not(int *zapis)
+
+void save_or_not(int *save)
 {
     printf("1) SAVE FILE\n 2) DO NOT SAVE FILE");
-    int ok = scanf("%d", &(*zapis));
+    int ok = scanf("%d", &(*save));
     if(ok!=1)
     {
         printf("Wrong data, EXIT!");
@@ -288,7 +317,7 @@ void save_or_not(int *zapis)
 
 void next_menu(int *menu2)
 {
-    printf("************************\n1) NOISE THE FUNCTION\n2) FILTER THE FUNCTION\n3) GO BACK MENU\n");
+    printf("************************\n1) NOISE THE FUNCTION\n2) FILTER THE FUNCTION\n3) GO BACK MENU\ntype: ");
     int ok = scanf("%d",&(*menu2));
     if(ok!=1)
     {
@@ -299,7 +328,7 @@ void next_menu(int *menu2)
     
 }
 
-/*int read_length(int * rozmiar, char NazwaPliku[]) 
+/*int read_length(int * size, char NazwaPliku[]) 
 {
 	FILE* plik;
 	plik = fopen(NazwaPliku, "r");
@@ -308,17 +337,19 @@ void next_menu(int *menu2)
 		printf("\nNie udalo sie otworzyc pliku");
 	}
     fseek(plik,0L,SEEK_END);
-    *rozmiar = ftell(plik);
-    *rozmiar = (*rozmiar-33)/10;
-    printf("\n rozmiar = %d\n", *rozmiar);
+    *size = ftell(plik);
+    *size = (*size-33)/10;
+    printf("\n size = %d\n", *size);
 }
 */
-void read_length(int* rozmiar, char NazwaPliku[]) {
+
+void read_length(int* size, char NazwaPliku[]) 
+{
 	FILE* excel;
 	excel = fopen(NazwaPliku, "r");
 
 	if (excel == NULL) {
-		printf("\nNie udalo sie otworzyc pliku");
+		printf("\ncouldnt open the file\n");
 	}
 	setlocale(LC_ALL, "polish_poland");
 
@@ -334,26 +365,27 @@ void read_length(int* rozmiar, char NazwaPliku[]) {
 		chr = getc(excel);
 	}
 
-	printf("\nwiersze=%d", wiersze);
+	//printf("\nwiersze=%d", wiersze);
 
 	setlocale(LC_ALL, "C");
 
 	fclose(excel);
 
-	*rozmiar = wiersze;
+	*size = wiersze;
 }
-void filtred(double *wynik, double* filtr_tab, int *rozmiar)
+
+void filtered_function(double *array_function, double* filtr_tab, int *size)
 {
     double probki[5];
     int okno = 5;
-    filtr_tab = calloc(*rozmiar, sizeof(double));
-    for(int i =0; i< *rozmiar; i++)
-    filtr_tab[i] = wynik[i];
-    for (int i =0; i<*rozmiar-3; i++)
+    filtr_tab = calloc(*size, sizeof(double));
+    for(int i =0; i< *size; i++)
+    filtr_tab[i] = array_function[i];
+    for (int i =0; i<*size-3; i++)
     {
         for(int p=0; p< okno; p++)
         {
-        probki[p] = wynik[p+i];
+        probki[p] = array_function[p+i];
         }
         for(int i=0;i<5;i++)
         {
@@ -371,18 +403,18 @@ void filtred(double *wynik, double* filtr_tab, int *rozmiar)
      *(filtr_tab+2+i) = *(probki+2);   
     }//for(int i=0;i<okno;i++)printf("probka[%d] = %lf", i , probki[i]);
 
-    
-        
+for(int i = 0; i <*size; i++)
+ printf("test[%d] = %lf\n",i, filtr_tab[i]);
 
-
+}
  /*   double probki[5];
  int okno=5;
- filtr_tab = calloc(*rozmiar, sizeof(double));
- for (int j=0 ; j< *rozmiar ; j++)
+ filtr_tab = calloc(*size, sizeof(double));
+ for (int j=0 ; j< *size ; j++)
  {
-    filtr_tab[j]= wynik[j];
+    filtr_tab[j]= array_function[j];
     for(int i = 0; i<okno ; i++)
-        probki[i]= wynik[j+i];
+        probki[i]= array_function[j+i];
         for(int j=0;j<okno;j++)
         {
         for(int i =0; i< okno; i++)
@@ -398,8 +430,3 @@ void filtred(double *wynik, double* filtr_tab, int *rozmiar)
         }
     filtr_tab[2+j] = probki[2];
  }*/
-
-for(int i = 0; i <*rozmiar; i++)
- printf("test[%d] = %lf\n",i, filtr_tab[i]);
-
-}
