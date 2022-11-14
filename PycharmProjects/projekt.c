@@ -73,12 +73,12 @@ int main()
                     case 1:
                     {
                         amp = amplitude();                                              // AMPLITUDE
-                        noise_probability(array_function,array_noised,size,&amp);
-                        for (int i=0; i<size;i++)
-                        array_function[i]=array_noised[i];      // GENERATING NOISE
+                        noise_probability(array_function,array_noised,size,&amp);       // GENERATING NOISE
                         save_or_not(&save);                                             // SAVE
                         if(save == 1)
                         {
+                            for (int i=0; i<size;i++) 
+                            array_function[i]=array_noised[i]; 
                             save_function(array_function,size,"essa.csv");
                             printf("SAVED!");
                         }
@@ -131,11 +131,11 @@ int main()
                         amp = amplitude();
                         //  printf("amp = %d", amp);
                         noise_probability(array_function,array_noised,size,&amp);
-                        for (int i=0; i<size;i++)
-                        array_function[i]=array_noised[i];
                         save_or_not(&save);                                             // SAVE
                         if(save == 1)
                         {
+                            for (int i=0; i<size;i++) 
+                            array_function[i]=array_noised[i]; 
                             save_function(array_function,size,"essa.csv");
                             printf("SAVED!");
                         }
