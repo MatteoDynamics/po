@@ -1,0 +1,19 @@
+﻿  SFML_OSC.cpp
+C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Button.h(35,19): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Button.h(46,22): warning C4244: "inicjowanie": konwersja z "T" do "float", możliwa utrata danych
+          with
+          [
+              T=int
+          ]
+C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Button.h(47,22): warning C4244: "inicjowanie": konwersja z "T" do "float", możliwa utrata danych
+          with
+          [
+              T=int
+          ]
+C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\SFML_OSC.cpp(78,21): warning C4102: "std": etykieta, do której nie istnieje odwołanie
+C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\SFML_OSC.cpp(16,17): warning C4101: "osc": lokalna zmienna, do której nie istnieje odwołanie
+  Trwa generowanie kodu
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 170 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Zakończono generowanie kodu
+  SFML_OSC.vcxproj -> C:\Users\Matteo\source\repos\SFML_OSC\x64\Release\SFML_OSC.exe
