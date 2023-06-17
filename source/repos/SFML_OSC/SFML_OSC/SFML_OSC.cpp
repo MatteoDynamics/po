@@ -12,19 +12,29 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Osciloscope");
     window.setFramerateLimit(60);
-    //  window.setKeyRepeatEnabled(true);
-    Osciloscope osc;
+    
     sf::Font arial;
     arial.loadFromFile("ARIAL.ttf");
+
+    //SCREEN
     Screen s1;
+    Osciloscope osc(s1);
+    osc.set_amplitude(25,s1);
+
+
+    //TEXT INPUT
     TextBox text(sf::Color::White, 20, false);
     text.setLimit(true, 10);
-    std::string add = "add";
-    sf::Vector2f vec = { 100, 200 };
     text.setFont(arial);
     text.setPosiiton(sf::Vector2f(1700, 100));
+
+    //POSITIONS
     sf::Vector2f pos(1600, 100);
     sf::Vector2f pos2(1600, 300);
+    sf::Vector2f save_pos(1600, 500);
+
+
+    //BUTTONS
     Button b1("MATH", sf::Vector2f(200, 100), 50, sf::Color::White, sf::Color:: Black);
     b1.set_position(pos);
     b1.set_font(arial);
@@ -32,6 +42,13 @@ int main()
     Button b2("MEASURE", sf::Vector2f(200, 100), 25, sf::Color::White, sf::Color::Black);
     b2.set_position(pos2);
     b2.set_font(arial);
+
+    Button save_button("SAVE", sf::Vector2f(200, 100), 50, sf::Color::White, sf::Color::Black);
+    save_button.set_position(save_pos);
+    save_button.set_font(arial);
+
+
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -50,24 +67,24 @@ int main()
             {
                 case sf::Event::Closed:
                 {
-                    window.close();
+                    window.close(); //CLOSE EVENT
 
                 }
 
                 case sf::Event::TextEntered:
                 {
-                    text.typedOn(event);
+                    text.typedOn(event); //TYPING EVENT
                 }
 
                 case sf::Event::MouseMoved:
                 {
                     if (b1.is_mouse_on(window))
                     {
-                        b1.set_back_color(sf::Color::Yellow);
+                        b1.set_back_color(sf::Color::Yellow); // MOUSE ON BUTTON
                     }
                     else
                     {
-                        b1.set_back_color(sf::Color::White);
+                        b1.set_back_color(sf::Color::White); // MOUSE NOT ON BUTTON
                     }
                 }break;
 
@@ -75,7 +92,7 @@ int main()
                 {
                     if (b1.is_mouse_on(window))
                     {
-                    std:; cout << "Works" << std::endl;
+                    std:; cout << "Works" << std::endl; //PRESSING TEST
                     }
                 }break;
 
@@ -100,8 +117,10 @@ int main()
         text.draw(window);
         b1.drawButton(window);
         b2.drawButton(window);
-      //  osc.draw(window);
+        save_button.drawButton(window);
+        osc.draw(window);
         window.display();
+
     }
 
     return 0;
