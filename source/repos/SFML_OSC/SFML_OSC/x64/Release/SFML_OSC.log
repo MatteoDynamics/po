@@ -1,22 +1,15 @@
-﻿  SFML_OSC.cpp
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Button.h(35,19): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Button.h(46,22): warning C4244: "inicjowanie": konwersja z "T" do "float", możliwa utrata danych
-          with
-          [
-              T=int
-          ]
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Button.h(47,22): warning C4244: "inicjowanie": konwersja z "T" do "float", możliwa utrata danych
-          with
-          [
-              T=int
-          ]
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.h(11): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+﻿  Osciloscope.cpp
 C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.h(12): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.h(24,21): warning C4244: "=": konwersja z "int" do "float", możliwa utrata danych
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\SFML_OSC.cpp(95,21): warning C4102: "std": etykieta, do której nie istnieje odwołanie
+C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.h(13): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.h(25,21): warning C4244: "=": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.cpp(17,162): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
   Trwa generowanie kodu
-  1 of 177 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+  2 of 245 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    10 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
   SFML_OSC.vcxproj -> C:\Users\Matteo\source\repos\SFML_OSC\x64\Release\SFML_OSC.exe

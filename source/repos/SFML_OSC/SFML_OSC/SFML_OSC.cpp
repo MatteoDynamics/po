@@ -19,7 +19,7 @@ int main()
     //SCREEN
     Screen s1;
     Osciloscope osc(s1);
-    osc.set_amplitude(25,s1);
+    osc.set_amplitude(250,s1);
 
 
     //TEXT INPUT
@@ -86,30 +86,52 @@ int main()
                     {
                         b1.set_back_color(sf::Color::White); // MOUSE NOT ON BUTTON
                     }
+                    if (save_button.is_mouse_on(window))
+                    {
+                        save_button.set_back_color(sf::Color::Yellow); // MOUSE ON BUTTON
+                    }
+                    else
+                    {
+                        save_button.set_back_color(sf::Color::White); // MOUSE NOT ON BUTTON
+                    }
                 }break;
 
                 case sf::Event::MouseButtonPressed:
                 {
                     if (b1.is_mouse_on(window))
                     {
-                    std:; cout << "Works" << std::endl; //PRESSING TEST
+                        std::cout << "Opened math" << std::endl; // PRESSING TEST
+                        sf::RenderWindow window_Math(sf::VideoMode(800, 600), "Multimeter");
+                        while (window_Math.isOpen())
+                        {
+                            sf::Event event2;
+                            while (window_Math.pollEvent(event2))
+                            {
+                                switch (event2.type)
+                                {
+                                case sf::Event::Closed:
+                                    window_Math.close();
+                                    break;
+                                }
+                            }
+                           
+                            window_Math.clear();
+                            window_Math.display();
+                        }
                     }
-                }break;
+                    if (save_button.is_mouse_on(window))
+                    {
+                        std::cout << "saved";
+                        osc.save_waveform("waveform.csv");
+                    }
+                }
+                break;
 
      
                 
 
             }
 
-       
-           // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        //    {
-          //      window.close();
-        //    }
-           // if (sf::Mouse::getPosition(window)<sf::Vector2f)
-            //{
-
-            //}
         }
 
         window.clear();
