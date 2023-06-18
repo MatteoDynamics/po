@@ -15,6 +15,7 @@ public:
 	TextBox();
 	TextBox(sf::Color color, int size, bool sel)
 	{
+		text_counter = 0;
 		textbox.setCharacterSize(size);
 		textbox.setFillColor(color);
 		isSelected = sel;
@@ -67,6 +68,18 @@ public:
 	{
 		 
 		window.draw(textbox);
+
+		//CONVERT sf::Text to float
+		
+		//textbox.setString("");
+
+
+		for (int i = 0; i < text_counter; i++)
+		{
+			window.draw(texts[i]);
+		}
+		//std::cout << "text"<<text<<std::endl;
+		//this->floatValue = std::stof(text);
 	}
 	void typedOn(sf::Event &input_text)
 	{
@@ -93,8 +106,42 @@ public:
 			}
 		}
 	}
+	float text_to_float()
+	{
+		return floatValue;
+	}
+
+	float save_to_float()
+	{
+		float floatValue;
+		std::istringstream iss(textbox.getString());
+		iss >> floatValue;
+		return floatValue;
+	}
+
+	//void add_newText(const std::string &name)
+	//{
+	//	text_counter++;
+	//	sf::Text* tmp = new sf::Text[text_counter];
+	//	for (int i = 0; i < text_counter - 1; i++)
+	//	{
+	//		tmp[i] = texts[i];
+	//	}
+	//	delete[] texts;
+	//	texts = tmp;
+
+	//	// Set properties of the new sf::Text object
+	//	texts[text_counter - 1].setFillColor(sf::Color::White);
+	//	texts[text_counter - 1].setCharacterSize(25);
+	//	texts[text_counter - 1].setStyle(sf::Text::Bold);
+	//	texts[text_counter - 1].setPosition(100, 100);
+	//}
+
 
 private:
+	int text_counter;
+	sf::Text* texts;
+	float floatValue;
 	sf::Text textbox;
 	std::ostringstream text;
 	bool isSelected = false;
@@ -131,5 +178,6 @@ private:
 		text << newText;
 		textbox.setString(text.str());
 	}
+
 };
 

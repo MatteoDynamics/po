@@ -3,13 +3,16 @@
 #include <iostream>
 class Button
 {
+    int button_counter;
+    sf::RectangleShape* buttons;
     sf::RectangleShape button;
     sf::Text text; 
 
 public:
-    //Button();
+    Button();
     Button(std::string t, sf::Vector2f size, int charsize, sf::Color color, sf::Color textcolor)
     {
+       buttons = nullptr;
        text.setString(t);
        text.setFillColor(textcolor);
        text.setCharacterSize(charsize);
@@ -58,5 +61,9 @@ public:
         else return false;
     }   
 
+    void add_new_button()
+    {
+
+    }
 
 };

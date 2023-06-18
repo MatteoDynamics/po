@@ -17,6 +17,8 @@ void Osciloscope::set_waveform(Screen& screen)
         waveform[i].position = sf::Vector2f(screen.get_screen().getPosition().x + x, screen.get_screen().getPosition().y + screen.get_screen().getSize().y * 0.5 - y);
         waveform[i].color = sf::Color::Yellow;
     }
+    wave_count = 0;
+    waveforms = nullptr;
 }
 
 void Osciloscope :: save_waveform(const std::string& filename)

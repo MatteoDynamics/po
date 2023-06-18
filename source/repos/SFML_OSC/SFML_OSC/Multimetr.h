@@ -3,9 +3,6 @@ class Multimetr
 {
 	float measured;
 public:
-	float measure()
-	{
-
-	}
+	virtual float measure() = 0;
 };
 
