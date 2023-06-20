@@ -140,20 +140,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Freqmeter.cpp" />
     <ClCompile Include="Multimetr.cpp" />
     <ClCompile Include="Osciloscope.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="SFML_OSC.cpp" />
-    <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="Voltmeter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Freqmeter.h" />
     <ClInclude Include="Multimetr.h" />
     <ClInclude Include="Osciloscope.h" />
     <ClInclude Include="Screen.h" />
-    <ClInclude Include="Simulation.h" />
+    <ClInclude Include="SFML_OSC.h" />
     <ClInclude Include="TextBox.h" />
+    <ClInclude Include="Voltmeter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -18,6 +18,9 @@ class Osciloscope
 
 public:
     Osciloscope(Screen &screen);
+    float get_amp() { return amplitude; };
+    float get_freq() { return frequency; };
+    void scaling();
     void draw(sf::RenderWindow& window)
     {
         window.draw(waveform);
@@ -28,6 +31,12 @@ public:
         amplitude = amp;
         set_waveform(screen);
         std::cout << "osc amp: " << amplitude << std::endl;
+    }
+    void set_frequency(float freq, Screen& screen)
+    {
+        frequency = freq;
+        set_waveform(screen);
+        std::cout << "osc freq: " << frequency << std::endl;
     }
     void save_waveform(const std::string& filename);
     

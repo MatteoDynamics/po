@@ -1,28 +1,5 @@
-﻿  Osciloscope.cpp
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.h(15): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.h(16): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.cpp(17,162): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
-          with
-          [
-              T=float
-          ]
-  SFML_OSC.cpp
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Button.h(38,19): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Button.h(49,22): warning C4244: "inicjowanie": konwersja z "T" do "float", możliwa utrata danych
-          with
-          [
-              T=int
-          ]
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Button.h(50,22): warning C4244: "inicjowanie": konwersja z "T" do "float", możliwa utrata danych
-          with
-          [
-              T=int
-          ]
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.h(15): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\Osciloscope.h(16): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-C:\Users\Matteo\source\repos\SFML_OSC\SFML_OSC\SFML_OSC.cpp(16,9): warning C4101: "button_counter": lokalna zmienna, do której nie istnieje odwołanie
-  Trwa generowanie kodu
-  2 of 258 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
+﻿  Trwa generowanie kodu
+  0 of 271 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu

@@ -12,6 +12,7 @@
 class TextBox
 {
 public:
+
 	TextBox();
 	TextBox(sf::Color color, int size, bool sel)
 	{
@@ -119,6 +120,19 @@ public:
 		return floatValue;
 	}
 
+	bool isselected()
+	{
+		if (isSelected == true)
+		{
+			std::cout << "isSelected";
+			return true;
+		}
+		else return false;
+	}
+	void flush_bufor()
+	{
+		textbox.setString("");
+	}
 	//void add_newText(const std::string &name)
 	//{
 	//	text_counter++;
