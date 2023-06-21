@@ -15,54 +15,19 @@ class Osciloscope
     float frequency = 0.05;          // Czêstotliwoœæ fali sinusoidalnej
     float waveSpeed = 0.1;           // Prêdkoœæ poruszania siê fali
     int numPoints = 1440;             // Liczba punktów fali sinusoidalnej
-
+    void set_waveform(Screen& screen);
 public:
     Osciloscope(Screen &screen);
     float get_amp() { return amplitude; };
     float get_freq() { return frequency; };
     void scaling();
-    void draw(sf::RenderWindow& window)
-    {
-        window.draw(waveform);
-    }
-    void set_waveform(Screen& screen);
-    void set_amplitude(float amp, Screen& screen)
-    {
-        amplitude = amp;
-        set_waveform(screen);
-        std::cout << "osc amp: " << amplitude << std::endl;
-    }
-    void set_frequency(float freq, Screen& screen)
-    {
-        frequency = freq;
-        set_waveform(screen);
-        std::cout << "osc freq: " << frequency << std::endl;
-    }
+    void draw(sf::RenderWindow& window);
+    
+    void set_amplitude(float amp, Screen& screen);
+    void set_frequency(float freq, Screen& screen);
     void save_waveform(const std::string& filename);
     
     //WAVEFORM ALOCATION
-    void add_new_function()
-    {
-        if (wave_count >= 3)
-        {
-            std::cerr<< "Max wave_count is 3" << std::endl;
-            return;
-        }
-        wave_count++;
-        sf::VertexArray* tmp;
-        tmp = new sf::VertexArray[wave_count];
-        if (tmp == NULL)
-        {
-            std::cerr << "Not enough memory" << std::endl;
-            return;
-        }
-        for (int i = 0; i < wave_count-1; i++)
-        {
-            tmp[i] = waveforms[i];
-        }
-        delete[] waveforms;
-        waveforms = tmp;
-        
-    }
+    void add_new_function();
 };
 

@@ -7,6 +7,7 @@
 #include "Multimetr.h"
 #include "Voltmeter.h"
 #include "Freqmeter.h"
+#include <vector>
 
 using namespace std;
 constexpr int SCREEN_WIDTH = 1920;
@@ -15,7 +16,7 @@ constexpr int SCREEN_HEIGHT = 1080;
 int main()
 {
     
-   
+    std::vector <TextBox> texts;
     Button* buttons = nullptr;
     int button_counter;
     sf::ContextSettings settings;
@@ -61,7 +62,16 @@ int main()
 
     //BUTTONS
     Button b1("MATH", sf::Vector2f(200, 100), 50, sf::Color::White, sf::Color:: Black);
-    b1.set_position(pos);
+    try {
+        b1.set_position(pos);
+    }
+    catch (const std::exception& e)
+    {
+        e.~exception();
+        std::cerr << "invalid position" << std::endl;
+        abort();
+
+    }
     b1.set_font(arial);
 
     Button measure("MEAS", sf::Vector2f(200, 100), 50, sf::Color::White, sf::Color::Black);
@@ -202,14 +212,21 @@ int main()
                                 {
                                     if (add_button.is_mouse_on(window_Math))
                                     {
-                                        TextBox text2(sf::Color::White, 20, true);
-                                        text2.setLimit(true, 10);
-                                        text2.setFont(arial);
-                                        text2.setPosiiton(sf::Vector2f(75, 55));
-                                        osc.add_new_function();
-                                        text2.draw(window_Math);
+                                        texts.push_back(TextBox(sf::Color::White, 25, true));
+                                        if (texts.size() > 2)
+                                        {
+                                            std::cout << "you can sum only 1 function" << std::endl;
+                                            break;
+                                        }
+                                        for (int i = 0; i < texts.size(); i++)
+                                        {
+                                            texts[i].setFont(arial);
+                                            texts[i].setLimit(3);
+                                            texts[i].setPosiiton(sf::Vector2f(60, 60 + i * 50));
+                                            std::cout << "texts dziala" << std::endl;
+                                        }
                                         /*t1.add_newText();*/
-                                        std::cout << "win2 dziala" << std::endl;
+                                       
                                     }
                                 }
                                 }
@@ -217,6 +234,10 @@ int main()
                            
                             window_Math.clear();
                             add_button.drawButton(window_Math);
+                            for (int i = 0; i < texts.size(); i++)
+                            {
+                                texts[i].draw(window_Math);
+                            }
                             window_Math.display();
                         }
                     }
@@ -289,8 +310,20 @@ int main()
 
                     if (save_button.is_mouse_on(window))
                     {
-                        std::cout << "saved";
-                        osc.save_waveform("waveform.csv");
+                        
+                        try {
+                            osc.save_waveform("waveform.csv");
+                        }
+                        catch (const std::exception &e)
+                        {
+                          //  e.~exception();
+                            std::cout << "didnt save" << std::endl;
+                            std::cerr << "invalid fileopen" << std::endl;
+                            abort();
+
+                        }
+                        std::cout << "saved"<<std::endl;;
+                        
                     }
                 }
                 break;
